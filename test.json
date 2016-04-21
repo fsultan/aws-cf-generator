@@ -1,0 +1,78 @@
+{
+  "defaults": {
+    "tags":[
+      "sm:env=qa",
+      "sm:meta=default, QA"
+    ]
+  },
+  "vpc":{
+    "name": "VPC",
+    "cidr_block": "10.120.0.0/16",
+    "dns_support": true,
+    "dns_hostnames": true,
+    "tenancy": false,
+    "tags": ["network=public"],
+    "internet_gateway": {
+      "name": "InternetGateway",
+      "tags": ["network=public"]
+     }
+  },
+  "acls" : [
+    {
+    "name" : "PublicNetworkAcl",
+    "tags": ["network=public"],
+    "ingress" : [
+      ["100","tcp","0.0.0.0/0","0,0","allow"]
+      ], 
+    "egress" : [
+      ["100","tcp","0.0.0.0/0","0,0","allow"]
+      ] 
+    },
+    {
+    "name" : "PrivateNetworkAcl",
+    "tags": ["network=private"],
+    "ingress" : [
+      ["100","tcp","0.0.0.0/0","0,0","deny"]
+      ], 
+    "egress" : [
+      ["100","tcp","0.0.0.0/0","0,0","allow"]
+      ]
+    }
+  ],
+  "subnets":[
+    {
+    "name": "PublicSubnet1",
+    "availability_zone": "us-east-1a",
+    "cidr_block": "10.120.0.0/24",
+    "tags": ["network=public"],
+    "acls": ["PublicNetworkAcl"]},
+    {
+    "name": "PrivateSubnet1",
+    "availability_zone": "us-east-1b",
+    "cidr_block": "10.120.100.0/24",
+    "tags": ["network=private"] }
+  ],
+  "route_tables": [{
+    "name": "PublicRoutes",
+    "tags": ["network=public"],
+    "routes": 
+      [{
+      "name": "PublicDefaultRoute",
+      "dest_cidr": "0.0.0.0/0", 
+      "target_type": "Gateway",
+      "target_id" : "igw-99999"
+      }]
+    },{
+    "name": "PrivateRoutes",
+    "tags": ["network=private"],
+    "routes": 
+      [{
+        "name": "PrivateDefaultRoute",
+        "dest_cidr": "0.0.0.0/0", 
+        "target_type": "Instance",
+        "target_id" : "i-99999"
+      }]
+    }
+  ]
+}
+

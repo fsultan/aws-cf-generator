@@ -1,0 +1,25 @@
+{
+  "vpc-id":"",
+  "default_tags":[
+    "sm:env=",
+    "sm:meta="
+  ],
+  "subnets":[{
+    "name": "",
+    "availability_zone": "",
+    "cidr_block": "",
+    "tags": ["network="] },
+  ],
+  "route_tables": [{
+    "name": "",
+    "tags": [],
+    "routes": [{
+      "name": "",
+      "dest_cidr":, 
+      "target_type": "",
+      "target_id" : "",
+      },
+    ]}
+  ],
+}
+
